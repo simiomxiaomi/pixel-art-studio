@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Pixel Art Studio — 在线像素画编辑器</title>
+<meta name="description" content="一个纯前端、零依赖的像素画编辑器。支持画笔、橡皮、油漆桶、吸管、撤销重做、多尺寸画布与 PNG 导出。" />
+<meta name="theme-color" content="#0b0f14" />
+<meta property="og:title" content="Pixel Art Studio — 在线像素画编辑器" />
+<meta property="og:description" content="纯前端、零依赖，打开就能画，画完导出 PNG。" />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b0f14'/><rect x='22' y='22' width='26' height='26' fill='%2322d3ee'/><rect x='52' y='22' width='26' height='26' fill='%23a78bfa'/><rect x='22' y='52' width='26' height='26' fill='%23a78bfa'/><rect x='52' y='52' width='26' height='26' fill='%2322d3ee'/></svg>" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">
+      <i></i><i></i><i></i><i></i>
+    </span>
+    <div class="brand-text">
+      <h1>Pixel Art Studio</h1>
+      <p>纯前端 · 零依赖 · 打开就能画</p>
+    </div>
+  </div>
+  <a class="gh-link" href="https://github.com/simiomxiaomi" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+</header>
+
+<main class="workspace">
+
+  <!-- ==================== 左侧控制面板 ==================== -->
+  <aside class="panel">
+
+    <section class="group">
+      <h2>工具 <span class="hint-keys">B / E / G / I</span></h2>
+      <div class="tools" id="tools">
+        <button type="button" class="tool is-active" data-tool="brush" title="画笔 (B)">
+          <span class="ico" aria-hidden="true">🖌</span><span>画笔</span>
+        </button>
+        <button type="button" class="tool" data-tool="eraser" title="橡皮 (E)">
+          <span class="ico" aria-hidden="true">🧽</span><span>橡皮</span>
+        </button>
+        <button type="button" class="tool" data-tool="fill" title="油漆桶 (G)">
+          <span class="ico" aria-hidden="true">🪣</span><span>填充</span>
+        </button>
+        <button type="button" class="tool" data-tool="picker" title="吸管 (I)">
+          <span class="ico" aria-hidden="true">💧</span><span>吸管</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>颜色</h2>
+      <div class="palette" id="palette" role="group" aria-label="预设颜色"></div>
+      <div class="custom-color">
+        <input type="color" id="colorInput" value="#22d3ee" aria-label="自定义颜色" />
+        <code id="colorValue">#22d3ee</code>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>画布尺寸</h2>
+      <div class="segmented" id="sizes">
+        <button type="button" data-size="16">16</button>
+        <button type="button" data-size="32" class="is-active">32</button>
+        <button type="button" data-size="64">64</button>
+      </div>
+      <label class="check">
+        <input type="checkbox" id="gridToggle" checked />
+        <span>显示网格线</span>
+      </label>
+      <p class="warn" id="sizeWarn" hidden>切换尺寸会清空当前作品，确定吗？</p>
+    </section>
+
+    <section class="group">
+      <h2>操作</h2>
+      <div class="row2">
+        <button type="button" class="ghost" id="undoBtn" title="Ctrl + Z">↶ 撤销</button>
+        <button type="button" class="ghost" id="redoBtn" title="Ctrl + Shift + Z">↷ 重做</button>
+      </div>
+      <button type="button" class="ghost danger" id="clearBtn">清空画布</button>
+    </section>
+
+    <section class="group">
+      <h2>导出</h2>
+      <div class="row2">
+        <select id="scaleSelect" aria-label="导出倍数">
+          <option value="1">原图 ×1</option>
+          <option value="4" selected>放大 ×4</option>
+          <option value="8">放大 ×8</option>
+          <option value="16">放大 ×16</option>
+        </select>
+        <button type="button" class="primary" id="exportBtn">导出 PNG</button>
+      </div>
+    </section>
+
+  </aside>
+
+  <!-- ==================== 右侧画布 ==================== -->
+  <section class="stage">
+    <div class="board-shell">
+      <canvas id="board" width="512" height="512" aria-label="像素画画布"></canvas>
+    </div>
+    <div class="stage-bar">
+      <span class="chip" id="statusSize">32 × 32</span>
+      <span class="chip" id="statusPos">就绪</span>
+      <span class="chip dim">左键绘制 · 右键吸取颜色</span>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>
+    作品自动保存在浏览器本地（localStorage），关掉页面也不会丢。
+    <span class="sep">·</span>
+    <kbd>Ctrl</kbd>+<kbd>Z</kbd> 撤销
+    <span class="sep">·</span>
+    <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd> 重做
+  </p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
